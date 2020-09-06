@@ -1,0 +1,608 @@
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `calctot` (`testa` FLOAT, `testb` FLOAT) RETURNS DECIMAL(9,2) BEGIN
+  DECLARE tot DECIMAL(9,2);
+  SET tot = testa+testb;
+  RETURN tot;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `full_name` (`fname` CHAR(20), `lname` CHAR(30)) RETURNS CHAR(60) CHARSET utf8mb4 RETURN CONCAT(fname,' ', lname)$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ay`
+--
+
+CREATE TABLE `ay` (
+  `ay_id` int(11) NOT NULL,
+  `ay_name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ay`
+--
+
+INSERT INTO `ay` (`ay_id`, `ay_name`) VALUES
+(1, '2020'),
+(2, '2020-2021');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `class`
+--
+
+CREATE TABLE `class` (
+  `class_id` int(5) NOT NULL,
+  `class_code` varchar(50) NOT NULL,
+  `class_name` varchar(50) NOT NULL,
+  `section` varchar(30) DEFAULT NULL,
+  `titulaire_id` int(5) NOT NULL,
+  `school_id` int(5) NOT NULL,
+  `level_id` int(5) NOT NULL,
+  `stream_id` int(5) NOT NULL,
+  `ay_id` int(5) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `class`
+--
+
+INSERT INTO `class` (`class_id`, `class_code`, `class_name`, `section`, `titulaire_id`, `school_id`, `level_id`, `stream_id`, `ay_id`) VALUES
+(1, 'S1A', 'SENIOR ONE A', '', 1, 1, 2, 1, 1),
+(2, 'S1B', 'SENIOR ONE B', '', 1, 1, 2, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `country`
+--
+
+CREATE TABLE `country` (
+  `country_id` int(1) NOT NULL,
+  `sortname` varchar(5) NOT NULL,
+  `country_name` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `country`
+--
+
+INSERT INTO `country` (`country_id`, `sortname`, `country_name`) VALUES
+(1, 'RW', 'Rwanda'),
+(2, 'TZ', 'Tanzania'),
+(3, 'UG', 'Uganda'),
+(4, 'SEN', 'Senegal'),
+(5, 'MW', 'Malawi'),
+(6, 'BEN', 'Benin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `levels`
+--
+
+CREATE TABLE `levels` (
+  `level_id` int(5) NOT NULL,
+  `level_name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `levels`
+--
+
+INSERT INTO `levels` (`level_id`, `level_name`) VALUES
+(1, 'Primary Level'),
+(2, 'Ordinary Level'),
+(3, 'Advanced Level');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marksheet`
+--
+
+CREATE TABLE `marksheet` (
+  `grade_id` int(5) NOT NULL,
+  `ay_id` int(5) NOT NULL,
+  `stream_id` int(5) NOT NULL,
+  `class_id` int(5) NOT NULL,
+  `student_id` int(5) NOT NULL,
+  `term1_test` float NOT NULL,
+  `term1_exam` float NOT NULL,
+  `term1_total` float NOT NULL,
+  `term1_avg` float NOT NULL,
+  `term1class_rank` int(5) NOT NULL,
+  `term1stream_rank` int(5) NOT NULL,
+  `term2_test` float NOT NULL,
+  `term2_exam` float NOT NULL,
+  `term2_total` float NOT NULL,
+  `term2_avg` float NOT NULL,
+  `term2class_rank` int(5) NOT NULL,
+  `term2stream_rank` int(5) NOT NULL,
+  `term3_test` float NOT NULL,
+  `term3_exam` float NOT NULL,
+  `term3_total` float NOT NULL,
+  `term3_avg` float NOT NULL,
+  `term3class_rank` int(5) NOT NULL,
+  `term3stream_rank` int(5) NOT NULL,
+  `total_year` float NOT NULL,
+  `avg_year` float NOT NULL,
+  `rank_year` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `sales_employee` varchar(50) NOT NULL,
+  `fiscal_year` int(11) NOT NULL,
+  `sale` decimal(14,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`sales_employee`, `fiscal_year`, `sale`) VALUES
+('Alice', 2016, '150.00'),
+('Alice', 2017, '100.00'),
+('Alice', 2018, '200.00'),
+('Bob', 2016, '100.00'),
+('Bob', 2017, '150.00'),
+('Bob', 2018, '200.00'),
+('John', 2016, '200.00'),
+('John', 2017, '150.00'),
+('John', 2018, '250.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school`
+--
+
+CREATE TABLE `school` (
+  `school_id` int(5) NOT NULL,
+  `category` varchar(20) NOT NULL,
+  `school_name` varchar(30) NOT NULL,
+  `district` varchar(20) NOT NULL,
+  `tel` int(10) NOT NULL,
+  `pobox` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `moto` varchar(30) NOT NULL,
+  `logo` longblob NOT NULL,
+  `headmaster` varchar(30) NOT NULL,
+  `country_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `school`
+--
+
+INSERT INTO `school` (`school_id`, `category`, `school_name`, `district`, `tel`, `pobox`, `email`, `moto`, `logo`, `headmaster`, `country_id`) VALUES
+(1, 'Private', 'GS Kicukiro', 'Kicukiro', 785554027, 'Kigali', 'gskicukiro@gmail.com', 'Learn for excellency', 0x72747975696f67686a6b6a, 'Kamana Prosper', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+CREATE TABLE `staff` (
+  `staff_id` varchar(5) NOT NULL,
+  `fname` varchar(30) NOT NULL,
+  `midname` varchar(30) NOT NULL,
+  `lname` varchar(30) NOT NULL,
+  `Age` int(2) NOT NULL,
+  `pob` varchar(20) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `tel` int(14) NOT NULL,
+  `address` varchar(20) NOT NULL,
+  `current_address` varchar(30) NOT NULL,
+  `dateofhiring` int(8) NOT NULL,
+  `qualification` varchar(20) NOT NULL,
+  `fieldofeducation` varchar(20) NOT NULL,
+  `profilepic` varchar(30) NOT NULL,
+  `stafftype` varchar(20) NOT NULL,
+  `username` int(12) NOT NULL,
+  `password` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`staff_id`, `fname`, `midname`, `lname`, `Age`, `pob`, `sex`, `tel`, `address`, `current_address`, `dateofhiring`, `qualification`, `fieldofeducation`, `profilepic`, `stafftype`, `username`, `password`) VALUES
+('1', 'Prosper', '', 'Kamana', 30, 'Gasabo', 'M', 98765, 'Gasabo', 'Gasabo', 2008, 'A0', 'Mathemacs', 'QWIEIEJJJDDKDKDKD', 'Teacher', 7856637, 'prosper'),
+('2', 'Louis', '', 'Munyaneza', 36, 'Gasabo', 'M', 25075757, 'Gasabo', 'Gasabo', 2002, 'A0', 'English', 'QWIEIEJJJDDKDKDKD', 'Teacher', 87656789, 'Louis123'),
+('3', 'Jackeline', '', 'Akimana', 40, 'Rusizi', 'F', 2147483647, 'Gasabo', 'Gasabo', 2010, 'A0', 'Languages', 'QWIEIEJJJDDKDKDKD', 'Teacher', 9876567, 'Jackilne123'),
+('4', 'Mathias', '', 'Rwabugiri', 45, 'Nyarugenge', 'M', 250778, 'Gasabo', 'Gasabo', 2020, 'A0', 'Social Sciences', 'QWIEIEJJJDDKDKDKD', 'Dean of Studies', 87654, 'Mathias123'),
+('5', 'Moise', '', 'Ruhinda', 30, 'Musanze', 'M', 287789, 'Gasabo', 'Gasabo', 2012, 'A0', 'Sciences', 'QWIEIEJJJDDKDKDKD', 'Teacher', 9452344, 'Moise123');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `streams`
+--
+
+CREATE TABLE `streams` (
+  `stream_id` int(5) NOT NULL,
+  `stream_name` varchar(20) NOT NULL,
+  `level_id` int(5) NOT NULL,
+  `stream_code` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `streams`
+--
+
+INSERT INTO `streams` (`stream_id`, `stream_name`, `level_id`, `stream_code`) VALUES
+(1, 'Senior One', 2, 'S1'),
+(2, 'Senior Two', 2, 'S2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `s_id` int(10) NOT NULL,
+  `s_number` int(10) DEFAULT NULL,
+  `fname` varchar(30) NOT NULL,
+  `mname` varchar(30) DEFAULT NULL,
+  `lname` varchar(30) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `disability` varchar(20) NOT NULL,
+  `bdate` date NOT NULL,
+  `bplace` varchar(10) NOT NULL,
+  `student_photo` varchar(200) NOT NULL,
+  `father_names` varchar(30) NOT NULL,
+  `mother_names` varchar(30) NOT NULL,
+  `guardian_tel` int(12) NOT NULL,
+  `guardian_email` varchar(20) DEFAULT NULL,
+  `district` varchar(20) NOT NULL,
+  `sector` varchar(20) NOT NULL,
+  `cell` varchar(20) NOT NULL,
+  `village` varchar(20) NOT NULL,
+  `stream_id` int(4) NOT NULL,
+  `class_id` int(10) NOT NULL,
+  `ay_id` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`s_id`, `s_number`, `fname`, `mname`, `lname`, `sex`, `disability`, `bdate`, `bplace`, `student_photo`, `father_names`, `mother_names`, `guardian_tel`, `guardian_email`, `district`, `sector`, `cell`, `village`, `stream_id`, `class_id`, `ay_id`) VALUES
+(1, 20201, 'Joseph', '', 'Rukundo', 'M', 'No', '2011-03-02', 'Kicukiro', 'RRWTWTWTWTWW', 'Leonard Ngenzi', 'Jane Mukunde', 2147483, '', 'Kicukiro', 'Kigarama', 'Aheza', 'Bwiza', 1, 1, 1),
+(2, 20204, 'Paul', '', 'Tedros', 'M', 'No', '2009-10-01', 'Kicukiro', 'RRWTWTWTWTWW', 'mupenzi Janvier', 'Umulisa Sarafina', 658790, '', 'Kicukiro', 'Kigarama', 'Aheza', 'Bwiza', 1, 1, 1),
+(3, 20205, 'Lenatha', '', 'Buregeya', 'F', 'YES', '2011-08-13', 'Kicukiro', 'RRWTWTWTWTWW', 'N. Jean', 'yohsnirs Marits', 60698789, '', 'Kicukiro', 'Kigarama', 'Aheza', 'Bwiza', 1, 1, 1),
+(4, 20206, 'Ferdinand', '', 'Muhima', 'M', 'No', '2008-07-11', 'Kicukiro', 'RRWTWTWTWTWW', 'Karibu Joel', 'Uwizeye ', 44567890, '', 'Kicukiro', 'Kigarama', 'Aheza', 'Bwiza', 1, 2, 1),
+(5, 20207, 'Helena', '', 'Vumuliya', 'F', 'No', '2012-02-21', 'Kicukiro', 'RRWTWTWTWTWW', 'munyemana Yohana', 'Odeta Makumi', 5679909, '', 'Kicukiro', 'Kigarama', 'Aheza', 'Bwiza', 1, 2, 1),
+(6, 20208, 'Julius', '', 'Karera', 'M', 'No', '2007-12-13', 'Kicukiro', 'RRWTWTWTWTWW', 'Renzaho ', 'Amizero Ana', 2147483647, '', 'Kicukiro', 'Kigarama', 'Aheza', 'Bwiza', 1, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subject`
+--
+
+CREATE TABLE `subject` (
+  `subj_id` int(5) NOT NULL,
+  `subj_code` varchar(10) DEFAULT NULL,
+  `subj_name` varchar(30) NOT NULL,
+  `subj_description` varchar(50) DEFAULT NULL,
+  `max_test` int(3) NOT NULL,
+  `max_exam` int(3) NOT NULL,
+  `teacher_id_1` int(5) NOT NULL,
+  `teacher_id_2` int(5) DEFAULT NULL,
+  `stream_id` int(5) NOT NULL,
+  `userid_fk` int(5) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `subject`
+--
+
+INSERT INTO `subject` (`subj_id`, `subj_code`, `subj_name`, `subj_description`, `max_test`, `max_exam`, `teacher_id_1`, `teacher_id_2`, `stream_id`, `userid_fk`, `date_added`) VALUES
+(1, 'MT', 'Mathematics', 'Math for Senior one classes', 50, 50, 1, NULL, 1, 2, '2020-07-17 08:36:07'),
+(2, 'ENG', 'English', 'English for Senior one classes', 50, 50, 2, NULL, 1, 2, '2020-07-17 08:36:18'),
+(3, 'EC', 'Economics', 'Economics for Senior one classes', 40, 40, 3, NULL, 1, 2, '2020-07-17 08:36:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subj_testmarks`
+--
+
+CREATE TABLE `subj_testmarks` (
+  `test_id` int(5) NOT NULL,
+  `subject_id` int(5) NOT NULL,
+  `student_id` int(5) NOT NULL,
+  `term_id` int(5) NOT NULL,
+  `test1` float NOT NULL,
+  `test2` float DEFAULT NULL,
+  `test3` float DEFAULT NULL,
+  `test4` float DEFAULT NULL,
+  `total_test` float DEFAULT NULL,
+  `exam1_marks` float NOT NULL,
+  `exam2_marks` float DEFAULT NULL,
+  `total_exam` float NOT NULL,
+  `exam_2ndsitting` float DEFAULT NULL,
+  `funal_marks` float DEFAULT NULL,
+  `remarks` varchar(40) DEFAULT NULL,
+  `comment` varchar(40) DEFAULT NULL,
+  `country_id` int(5) NOT NULL,
+  `school_id` int(5) NOT NULL,
+  `level_id` int(5) NOT NULL,
+  `stream_id` int(5) NOT NULL,
+  `class_id` int(5) NOT NULL,
+  `section_name` varchar(20) NOT NULL,
+  `ay_id` int(4) NOT NULL,
+  `added_by` varchar(20) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `subj_testmarks`
+--
+
+INSERT INTO `subj_testmarks` (`test_id`, `subject_id`, `student_id`, `term_id`, `test1`, `test2`, `test3`, `test4`, `total_test`, `exam1_marks`, `exam2_marks`, `total_exam`, `exam_2ndsitting`, `funal_marks`, `remarks`, `comment`, `country_id`, `school_id`, `level_id`, `stream_id`, `class_id`, `section_name`, `ay_id`, `added_by`, `date_added`) VALUES
+(1, 1, 1, 1, 49, 16, 0, 0, 0, 33, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(2, 1, 2, 1, 23, 15, 0, 0, 0, 21, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(3, 1, 3, 1, 49, 12, 0, 0, 0, 30, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(4, 1, 4, 1, 33, 12, 0, 0, 0, 23, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(5, 1, 1, 1, 25, 27, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(6, 1, 2, 1, 12, 28, 0, 0, 0, 30.9, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(7, 1, 3, 1, 19, 24, 0, 0, 0, 30.1, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(8, 1, 4, 1, 10, 4, 0, 0, 0, 31.8, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(9, 2, 1, 1, 8, 28, 0, 0, 0, 38.1, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(10, 2, 2, 1, 19, 24, 0, 0, 0, 17.9, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(11, 2, 3, 1, 22, 2, 0, 0, 0, 34.87, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(12, 2, 4, 1, 10, 21, 0, 0, 0, 23.98, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(13, 2, 1, 1, 18, 20, 0, 0, 0, 12.32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(14, 2, 2, 1, 23, 15, 0, 0, 0, 23, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(15, 2, 3, 1, 29, 14, 0, 0, 0, 30, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(16, 2, 4, 1, 38, 1, 0, 0, 0, 30, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(17, 3, 1, 1, 20, 28, 0, 0, 0, 30, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(18, 3, 2, 1, 30, 20, 0, 0, 0, 30.2, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(19, 3, 3, 1, 22, 22, 0, 0, 0, 30, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(20, 3, 4, 1, 17, 21, 0, 0, 0, 34.8, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(21, 3, 1, 1, 18, 20, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(22, 3, 2, 1, 21, 20, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(23, 3, 3, 1, 19, 25, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(24, 3, 4, 1, 37, 28, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(25, 1, 1, 2, 49, 16, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(26, 1, 2, 2, 23, 15, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(27, 1, 3, 2, 49, 12, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(28, 1, 4, 2, 33, 12, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(29, 1, 1, 2, 25, 27, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(30, 1, 2, 2, 12, 28, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(31, 1, 3, 2, 19, 24, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(32, 1, 4, 2, 10, 4, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(33, 2, 1, 2, 8, 28, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(34, 2, 2, 2, 19, 24, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(35, 2, 3, 2, 22, 2, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(36, 2, 4, 2, 10, 21, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(37, 2, 1, 2, 18, 20, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(38, 2, 2, 2, 23, 15, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(39, 2, 3, 2, 29, 14, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(40, 2, 4, 2, 38, 1, 0, 0, 0, 32, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(41, 3, 1, 2, 20, 28, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(42, 3, 2, 2, 30, 20, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(43, 3, 3, 2, 22, 22, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(44, 3, 4, 2, 17, 21, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(45, 3, 1, 2, 18, 20, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(46, 3, 2, 2, 21, 20, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(47, 3, 3, 2, 19, 25, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(48, 3, 4, 2, 37, 28, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(49, 1, 1, 3, 49, 16, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(50, 1, 2, 3, 23, 15, 0, 0, 0, 39, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(51, 1, 3, 3, 49, 12, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(52, 1, 4, 3, 33, 12, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(53, 1, 1, 3, 25, 27, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(54, 1, 2, 3, 12, 28, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(55, 1, 3, 3, 19, 24, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(56, 1, 4, 3, 10, 4, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(57, 2, 1, 3, 8, 28, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(58, 2, 2, 3, 19, 24, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(59, 2, 3, 3, 22, 2, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(60, 2, 4, 3, 10, 21, 0, 0, 0, 27, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(61, 2, 1, 3, 18, 20, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(62, 2, 2, 3, 23, 15, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(63, 2, 3, 3, 29, 14, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(64, 2, 4, 3, 38, 1, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(65, 3, 1, 3, 20, 28, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(66, 3, 2, 3, 30, 20, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(67, 3, 3, 3, 22, 22, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(68, 3, 4, 3, 17, 21, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 1, '', 1, '', '0000-00-00 00:00:00'),
+(69, 3, 1, 3, 18, 20, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(70, 3, 2, 3, 21, 20, 0, 0, 0, 19, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(71, 3, 3, 3, 19, 25, 0, 0, 0, 33, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00'),
+(72, 3, 4, 3, 37, 28, 0, 0, 0, 33, 0, 0, 0, NULL, NULL, NULL, 1, 1, 2, 1, 2, '', 1, '', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `terms`
+--
+
+CREATE TABLE `terms` (
+  `term_id` int(11) NOT NULL,
+  `term_name` varchar(15) NOT NULL DEFAULT 'First'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `terms`
+--
+
+INSERT INTO `terms` (`term_id`, `term_name`) VALUES
+(1, 'Fist Term'),
+(2, 'Second Term'),
+(3, 'Third Term');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `admins` (
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_time` int(11) UNSIGNED DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  `created_on` int(11) UNSIGNED NOT NULL,
+  `last_login` int(11) UNSIGNED DEFAULT NULL,
+  `active` tinyint(1) UNSIGNED DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `profile_image` varchar(100) NOT NULL,
+  `user_status` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ay`
+--
+ALTER TABLE `ay`
+  ADD PRIMARY KEY (`ay_id`),
+  ADD UNIQUE KEY `a_year` (`ay_name`);
+
+--
+-- Indexes for table `country`
+--
+ALTER TABLE `country`
+  ADD PRIMARY KEY (`country_id`);
+
+--
+-- Indexes for table `levels`
+--
+ALTER TABLE `levels`
+  ADD PRIMARY KEY (`level_id`);
+
+--
+-- Indexes for table `marksheet`
+--
+ALTER TABLE `marksheet`
+  ADD PRIMARY KEY (`grade_id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`sales_employee`,`fiscal_year`);
+
+--
+-- Indexes for table `school`
+--
+ALTER TABLE `school`
+  ADD PRIMARY KEY (`school_id`);
+
+--
+-- Indexes for table `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`staff_id`);
+
+--
+-- Indexes for table `streams`
+--
+ALTER TABLE `streams`
+  ADD PRIMARY KEY (`stream_id`);
+
+--
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`s_id`);
+
+--
+-- Indexes for table `subject`
+--
+ALTER TABLE `subject`
+  ADD PRIMARY KEY (`subj_id`);
+
+--
+-- Indexes for table `subj_testmarks`
+--
+ALTER TABLE `subj_testmarks`
+  ADD PRIMARY KEY (`test_id`);
+
+--
+-- Indexes for table `terms`
+--
+ALTER TABLE `terms`
+  ADD PRIMARY KEY (`term_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `ay`
+--
+ALTER TABLE `ay`
+  MODIFY `ay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `country`
+--
+ALTER TABLE `country`
+  MODIFY `country_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `levels`
+--
+ALTER TABLE `levels`
+  MODIFY `level_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `school`
+--
+ALTER TABLE `school`
+  MODIFY `school_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `students`
+--
+ALTER TABLE `students`
+  MODIFY `s_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `subject`
+--
+ALTER TABLE `subject`
+  MODIFY `subj_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `terms`
+--
+ALTER TABLE `terms`
+  MODIFY `term_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
